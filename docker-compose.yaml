@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  mariadb:
+    image: mariadb:11
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_password
+      MYSQL_DATABASE: api_studio
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: example_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: api_user
+      PMA_PASSWORD: example_password
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data: 
